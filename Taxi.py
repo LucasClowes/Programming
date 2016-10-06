@@ -4,6 +4,7 @@ Car class
 """
 from random import randint
 
+
 class Car:
     """ represent a car object """
 
@@ -44,7 +45,8 @@ class Taxi(Car):
 
     def __str__(self):
         """ return a string representation like a car but with current fare distance"""
-        return "{}, {}km on current fare, ${:.2f}/km".format(super().__str__(), self.current_fare_distance, self.price_per_km)
+        return "{}, {}km on current fare, ${:.2f}/km".format(super().__str__(), self.current_fare_distance,
+                                                             self.price_per_km)
 
     def get_fare(self):
         """ get the price for the taxi trip """
@@ -62,29 +64,27 @@ class Taxi(Car):
 
 
 class UnreliableCar(Car):
-
-
     def __init__(self, name, fuel, reliability):
         super().__init__(name, fuel)
         self.reliability = reliability
 
     def drive(self, distance):
-
+        distance_driven = 0
         if randint(0, 100) <= self.reliability:
-            super().drive(distance)
-
+            distance_driven = super().drive(distance)
+        return distance_driven
 
 
 class SilverServiceTaxi(Taxi):
-    flagfall = 4.50
+    flag_fall = 4.50
 
     def __init__(self, name, fuel, fanciness):
         super().__init__(name, fuel)
         self.fanciness = fanciness
-        self.price_per_km = super().price_per_km * fanciness
+        self.price_per_km *= fanciness
 
     def get_fare(self):
-        return super().get_fare() + self.flagfall
+        return super().get_fare() + self.flag_fall
 
     def __str__(self):
-        return "{} Plus flagfall ${:.2f}".format(super().__str__(), self.flagfall)
+        return "{} Plus flagfall ${:.2f}".format(super().__str__(), self.flag_fall)

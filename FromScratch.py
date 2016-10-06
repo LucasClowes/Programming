@@ -9,7 +9,7 @@ def main():
     taxis = [Taxi("Prius", 100), SilverServiceTaxi("Limo", 100, 2),
              SilverServiceTaxi("Hummer", 200, 4)]
 
-    print("Lets Drive")
+    print("Let's Drive")
     print(MENU)
     choice = input(">>> ").lower()
     while choice != 'q':
@@ -19,7 +19,8 @@ def main():
             print("Bill to Date: ${:.2f}".format(bill_to_date))
         elif choice == 'd':
             distance = int(input("Drive how far? "))
-            bill_to_date += trip_cost(distance, taxi_choice, taxis)
+            taxi = taxis[taxi_choice]
+            bill_to_date += calculate_trip_cost(distance, taxi_choice, taxis)
             print("Bill to Date: ${:.2f}".format(bill_to_date))
         else:
             print('Invalid Menu Choice')
@@ -31,22 +32,16 @@ def main():
 
 def print_list(taxis):
     print("Taxis Available")
-    count = 0
-    for item in taxis:
-        print("{} - {}".format(count, item))
-        count += 1
+    for count, taxi in enumerate(taxis):
+        print("{} - {}".format(count, taxi))
 
 
-def trip_cost(distance, taxi_choice, taxis):
-    count = 0
-    for item in taxis:
-        if count == taxi_choice:
-            item.start_fare()
-            item.drive(distance)
-            cost = item.get_fare()
-            print("Your {} trip cost you ${}".format(item.name, cost))
-            return cost
-        else:
-            count += 1
+def calculate_trip_cost(distance, taxi_choice, taxis):
+    taxi = taxis[taxi_choice]
+    taxi.start_fare()
+    taxi.drive(distance)
+    cost = taxi.get_fare()
+    print("Your {} trip cost you ${}".format(taxi.name, cost))
+    return cost
 
 main()
